@@ -1,2 +1,575 @@
-/* PROTECTED CODE - SLA MONITOR V7.9 - PROPERTY OF DANILSONRS */
-!function(){"use strict";let a=!1,b=!1,c=!0,d=!1,e=!1,f=new Set,g=new Set,h=new Set,i=!1,j=null,k=0,l=6e4,m={};function n(o,p){let q=0,r=0,s=0,t=0;p.style.cursor="grab",p.style.userSelect="none",p.onmousedown=function(u){u=u||window.event,u.preventDefault(),s=u.clientX,t=u.clientY;const v=o.getBoundingClientRect();o.style.bottom="auto",o.style.right="auto",o.style.top=v.top+"px",o.style.left=v.left+"px",document.onmouseup=x,document.onmousemove=w,p.style.cursor="grabbing"};function w(u){u=u||window.event,u.preventDefault(),q=s-u.clientX,r=t-u.clientY,s=u.clientX,t=u.clientY,o.style.top=o.offsetTop-r+"px",o.style.left=o.offsetLeft-q+"px"}function x(){document.onmouseup=null,document.onmousemove=null,p.style.cursor="grab"}}const o=document.createElement("div");o.style.position="fixed",o.style.bottom="20px",o.style.left="20px",o.style.width="220px",o.style.zIndex="999999999",o.style.background="#1e1e1e",o.style.color="white",o.style.fontFamily="Arial",o.style.border="2px solid #555",o.style.borderRadius="10px",o.style.boxShadow="0 0 15px rgba(0,0,0,0.5)",o.style.overflow="hidden";const p=document.createElement("div");p.style.padding="10px",p.style.background="#333",p.style.textAlign="center",p.style.fontWeight="bold",p.style.borderBottom="1px solid #555",p.innerText="\ud83c\udf9b\ufe0f Centro de Controle",o.appendChild(p);const q=document.createElement("div");q.style.padding="15px",q.innerHTML='<label style="display:flex; align-items:center; cursor:pointer; margin-bottom:12px; font-size:14px;"><input type="checkbox" id="chkMonitorSla" style="width:18px; height:18px; margin-right:8px; cursor:pointer;">Monitor de SLA</label><label style="display:flex; align-items:center; cursor:pointer; margin-bottom:12px; font-size:14px;"><input type="checkbox" id="chkMostrarAtendidas" checked style="width:18px; height:18px; margin-right:8px; cursor:pointer;">Exibir Atendidas</label><label style="display:flex; align-items:center; cursor:pointer; margin-bottom:12px; font-size:14px;"><input type="checkbox" id="chkMostrarOcultas" style="width:18px; height:18px; margin-right:8px; cursor:pointer;">Exibir OS Oculta</label><label style="display:flex; align-items:center; cursor:pointer; font-size:14px;"><input type="checkbox" id="chkNovasOs" style="width:18px; height:18px; margin-right:8px; cursor:pointer;">Alerta Novas OSs</label>',o.appendChild(q),document.body.appendChild(o),n(o,p);const r=document.createElement("div");r.style.position="fixed",r.style.top="20px",r.style.right="20px",r.style.width="auto",r.style.minWidth="280px",r.style.maxWidth="450px",r.style.zIndex="999999998",r.style.background="#111",r.style.color="white",r.style.fontFamily="Arial",r.style.border="2px solid #555",r.style.borderRadius="10px",r.style.boxShadow="0 0 15px rgba(0,0,0,0.5)",r.style.overflow="hidden",r.style.display="none";const s=document.createElement("div");s.style.padding="12px",s.style.background="#333",s.style.borderBottom="1px solid #555",s.style.display="flex",s.style.justifyContent="space-between",s.style.alignItems="center",s.innerHTML='<div style="display:flex; align-items:center;"><span style="font-size:16px; font-weight:bold; margin-right:10px;">\ud83d\udea8 Monitor SLA</span><span id="btnMuteSla" style="cursor:pointer; font-size:18px;" title="Silenciar Alertas de SLA">\ud83d\udd0a</span></div><span style="font-size:11px; opacity:0.7;">Arraste aqui</span>',r.appendChild(s);const t=document.createElement("div");t.style.padding="12px",t.style.maxHeight="80vh",t.style.overflowY="auto",r.appendChild(t),document.body.appendChild(r),n(r,s);const u=s.querySelector("#btnMuteSla");u.onmousedown=function(y){y.stopPropagation()},u.onclick=function(){e=!e,u.innerText=e?"\ud83d\udd07":"\ud83d\udd0a",e&&"speechSynthesis"in window&&window.speechSynthesis.cancel()},t.addEventListener("click",y=>{const z=y.target.closest(".btn-mute-os");if(z){const B=z.getAttribute("data-os");g.has(B)?(g.delete(B),z.innerText="\ud83d\udd0a",z.title="Mutar OS"):(g.add(B),z.innerText="\ud83d\udd07",z.title="Desmutar OS")}const A=y.target.closest(".btn-ocultar-os");if(A){const B=A.getAttribute("data-os");h.has(B)?(h.delete(B),A.innerText="\ud83d\ude48",A.title="Ocultar OS"):(h.add(B),A.innerText="\ud83d\udc41\ufe0f",A.title="Remover Oculta\xe7\xe3o")}}),document.getElementById("chkMonitorSla").addEventListener("change",y=>{a=y.target.checked,r.style.display=a?"block":"none",a||(t.innerHTML="")}),document.getElementById("chkMostrarAtendidas").addEventListener("change",y=>{c=y.target.checked}),document.getElementById("chkMostrarOcultas").addEventListener("change",y=>{d=y.target.checked}),document.getElementById("chkNovasOs").addEventListener("change",y=>{b=y.target.checked,b?(f.clear(),C().forEach(z=>f.add(z.os))):f.clear()});const v=document.createElement("div");v.style.position="fixed",v.style.inset="0",v.style.background="rgba(0, 0, 0, 0.85)",v.style.zIndex="9999999999",v.style.display="none",v.style.alignItems="center",v.style.justifyContent="center";const w=document.createElement("div");w.style.background="#0f172a",w.style.border="3px solid #3b82f6",w.style.borderRadius="15px",w.style.padding="30px",w.style.textAlign="center",w.style.color="white",w.style.fontFamily="Arial",w.style.minWidth="350px",w.style.maxWidth="500px",w.style.boxShadow="0 0 30px rgba(59, 130, 246, 0.5)",v.appendChild(w),document.body.appendChild(v);function x(){try{const y=new(window.AudioContext||window.webkitAudioContext),z=y.currentTime;function A(B,C){const D=y.createOscillator(),E=y.createGain();D.connect(E),E.connect(y.destination),D.type="sine",D.frequency.value=B,D.start(C),E.gain.setValueAtTime(0,C),E.gain.linearRampToValueAtTime(.1,C+.05),E.gain.exponentialRampToValueAtTime(1e-4,C+.8),D.stop(C+.8)}A(880,z),A(1108.53,z+.25)}catch(y){}}function y(z,A){const B=z.createOscillator(),C=z.createGain();B.connect(C),C.connect(z.destination),B.type="sine",B.frequency.value=880,B.start(A),C.gain.setValueAtTime(1,A),C.gain.exponentialRampToValueAtTime(1e-4,A+.15),B.stop(A+.15)}function z(A){if("speechSynthesis"in window){window.speechSynthesis.cancel();const B=new SpeechSynthesisUtterance(A);B.lang="pt-BR",B.rate=1.25,B.pitch=1,window.speechSynthesis.speak(B)}}function A(B,C){const D=Date.now(),E="critico"===B?6e4:12e4;if(E!==l||D-k>=E){if(k=D,l=E,"critico"===B)try{const F=new(window.AudioContext||window.webkitAudioContext),G=F.currentTime;for(let H=0;5>H;H++)y(F,G+.3*H);setTimeout(()=>{z(C)},1500)}catch(F){z(C)}else z(C)}}function B(C){const D=C.match(/(\d{2})\/(\d{2})\/(\d{4}) (\d{2}):(\d{2})/);if(!D)return null;const E=new Date(Number(D[3]),Number(D[2])-1,Number(D[1]),Number(D[4]),Number(D[5]));return Math.round((E-new Date)/1e3/60)}function C(){const D=document.querySelectorAll("span");let E=[];D.forEach(G=>{const H=G.getAttribute("title");if(!H||!H.includes("Previs\xe3o de Vencimento da SLA"))return;const I=G.parentElement?.parentElement;if(!I)return;const J=I.innerText;J&&!E.includes(J)&&E.push(J)});let F=[];return E.forEach(G=>{const H=G.split("\n").map(K=>K.trim()).filter(Boolean);let I=[];H.forEach((K,L)=>{/^\d{6}-\d+$/.test(K)&&I.push(L)}),I.forEach((K,L)=>{const M=H[K],N=I[L+1]||H.length,O=H.slice(K,N);let P=[];O.forEach(W=>{const X=W.split(/\t/).map(Y=>Y.trim()).filter(Boolean);P.push(...X)});const Q=[];let R="N\xe3o",S=!1,T=!1;P.forEach(W=>{const X=W.toUpperCase();X.includes("CANCELAD")&&(S=!0);const Y=/\d{2}\/\d{2}\/\d{4} \d{2}:\d{2}/g;let Z,$=!1;while(null!==(Z=Y.exec(W)))Q.push(Z[0]),$=!0;$||(X.includes("NENHUM VALOR")?Q.push("Nenhum Valor"):!T&&("SIM"===X||"N\xc3O"===X)&&(R="SIM"===X?"Sim":"N\xe3o",T=!0))});if(Q.length<2)return;const U=Q[1],V=Q[3]||"Nenhum Valor";F.push({os:M,sla:U,minutos:B(U),horaChegada:V,atrasado:R,cancelada:S})})}),F}function D(E){let F={};E.forEach(J=>{const K=J.os,L=J.horaChegada.toUpperCase().includes("NENHUM"),M="Sim"===J.atrasado;let N=1;J.cancelada||(N=L?2:M?4:3);const O=F[K];O?N>O.score?F[K]={...J,score:N}:N===O.score&&!J.cancelada&&!L&&function(P){if(!P||P.toUpperCase().includes("NENHUM"))return 0;const Q=P.match(/(\d{2})\/(\d{2})\/(\d{4} \d{2}:\d{2})/);return Q?new Date(Number(Q[3]),Number(Q[2])-1,Number(Q[1]),Number(Q[4]),Number(Q[5])).getTime():0}(J.horaChegada)<function(P){if(!P||P.toUpperCase().includes("NENHUM"))return 0;const Q=P.match(/(\d{2})\/(\d{2})\/(\d{4} \d{2}:\d{2})/);return Q?new Date(Number(Q[3]),Number(Q[2])-1,Number(Q[1]),Number(Q[4]),Number(Q[5])).getTime():0}(O.horaChegada)&&(F[K]={...J,score:N}):F[K]={...J,score:N}});let G=Object.values(F);c||(G=G.filter(J=>J.horaChegada.toUpperCase().includes("NENHUM")&&!J.cancelada)),d||(G=G.filter(J=>!h.has(J.os))),G.sort((J,K)=>{const L=J.horaChegada.toUpperCase().includes("NENHUM")&&!J.cancelada,M=K.horaChegada.toUpperCase().includes("NENHUM")&&!K.cancelada;if(L&&!M)return-1;if(!L&&M)return 1;if(L&&M){const N=null==J.minutos?9999:J.minutos,O=null==K.minutos?9999:K.minutos;return N-O}return J.cancelada&&!K.cancelada?1:!J.cancelada&&K.cancelada?-1:!L&&!M?function(N){if(!N||N.toUpperCase().includes("NENHUM"))return 0;const O=N.match(/(\d{2})\/(\d{2})\/(\d{4} \d{2}:\d{2})/);return O?new Date(Number(O[3]),Number(O[2])-1,Number(O[1]),Number(O[4]),Number(O[5])).getTime():0}(K.horaChegada)-function(N){if(!N||N.toUpperCase().includes("NENHUM"))return 0;const O=N.match(/(\d{2})\/(\d{2})\/(\d{4} \d{2}:\d{2})/);return O?new Date(Number(O[3]),Number(O[2])-1,Number(O[1]),Number(O[4]),Number(O[5])).getTime():0}(J.horaChegada):0});const H=G.filter(J=>J.horaChegada.toUpperCase().includes("NENHUM")&&null!==J.minutos&&!J.cancelada&&!g.has(J.os)&&!h.has(J.os));if(H.length>0&&!e){const J=H[0],K=J.minutos,L=parseInt(J.os.split("-")[1],10),M=J.os;m[M]||(m[M]={alertado15:!1,alertado10:!1}),15===K?m[M].alertado15||(m[M].alertado15=!0,z(`Aviso! Faltam 15 minutos, para a ocorr\xeancia final ${L}.`)):10===K?m[M].alertado10||(m[M].alertado10=!0,z(`Aviso! Faltam 10 minutos, para a ocorr\xeancia final ${L}.`)):5>=K&&function(){const N=Math.abs(K),O=1===N?"minuto":"minutos";let P;P=0>K?`Urgente! A ocorr\xeancia final ${L}, est\xe1 atrasada em ${N} ${O}.`:`Urgente! Faltam ${N} ${O}, para o tempo limite da ocorr\xeancia final ${L}.`,A("critico",P)}()}t.innerHTML=0===G.length?'<div style="text-align:center;">Nenhuma ocorr\xeancia na tela.</div>':G.map(J=>{const K=J.horaChegada.toUpperCase().includes("NENHUM");let L="#1e1e1e";return J.cancelada?L="#333333":K?null!==J.minutos&&10>=J.minutos?L="#8b0000":null!==J.minutos&&15>=J.minutos&&(L="#b45309"):L="Sim"===J.atrasado?"#7f1d1d":"#14532d",`<div style="background:${L}; padding:10px; margin-bottom:10px; border-radius:8px;"><div style="display:flex; justify-content:space-between; align-items:flex-start;"><div style="font-weight:bold; font-size:14px; white-space:nowrap;">\ud83d\udccc ${J.os}</div><div style="display:flex; gap:5px;">${!J.cancelada&&K&&(0>J.minutos||null===J.minutos)?`<span class="btn-ocultar-os" data-os="${J.os}" style="cursor:pointer; font-size:14px; background:rgba(255,255,255,0.1); padding:2px 5px; border-radius:4px;" title="${h.has(J.os)?"Remover Oculta\xe7\xe3o":"Ocultar OS"}">${h.has(J.os)?"\ud83d\udc41\ufe0f":"\ud83d\ude48"}</span>`:""}${!J.cancelada&&K?`<span class="btn-mute-os" data-os="${J.os}" style="cursor:pointer; font-size:14px; background:rgba(255,255,255,0.1); padding:2px 5px; border-radius:4px;" title="${g.has(J.os)?"Desmutar OS":"Mutar OS"}">${g.has(J.os)?"\ud83d\udd07":"\ud83d\udd0a"}</span>`:""}</div></div><div style="margin-top:4px; font-size:12px;">\u23f0 SLA: ${J.sla}</div>${J.cancelada?'<div style="margin-top:10px; font-size:18px; font-weight:bold; color:#888;">\ud83d\udeab CANCELADA</div>':K?`<div style="margin-top:10px; font-size:28px; font-weight:bold;">\u23f3 ${null===J.minutos?"N/A":J.minutos+" min"}</div>`:`<div style="margin-top:10px; font-size:14px; font-weight:bold;">${"Sim"===J.atrasado?"\ud83d\udea8 ATENDIDA COM ATRASO":"\u2705 ATENDIDA NO PRAZO"}</div><div style="margin-top:6px; opacity:0.9; font-size:12px;">\ud83d\ude97 Chegada: ${J.horaChegada}</div>`}</div>`}).join("")}setInterval(()=>{if(a||b){const E=C();a&&D(E),b&&function(F){if(i)return;const G=[...new Set(F.filter(I=>!I.cancelada).map(I=>I.os))];let H=[];if(G.forEach(I=>{f.has(I)||H.push(I)}),H.length>0)i=!0,w.innerHTML=`<div style="font-size:35px; margin-bottom:10px;">\ud83d\udea8</div><div style="font-size:24px; font-weight:bold; color:#3b82f6; margin-bottom:20px;">NOVA OCORR\xcaNCIA DETECTADA!</div><div style="font-size:18px; max-height: 400px; overflow-y: auto; margin-bottom:25px; color:#cbd5e1; padding-right: 10px;">${H.map(I=>`<div style="margin-bottom:8px; background:#1e293b; padding:10px; border-radius:8px; text-align: left;">\ud83d\udccc ${I}</div>`).join("")}</div><button id="btnConfirmaNovaOs" style="background: #3b82f6; color: white; border: none; padding: 15px 30px; font-size: 18px; font-weight: bold; border-radius: 8px; cursor: pointer; width: 100%; box-shadow: 0 5px 15px rgba(59, 130, 246, 0.3);">OK, Ciente</button>`,v.style.display="flex",x(),j=setInterval(x,2500),document.getElementById("btnConfirmaNovaOs").onclick=()=>{clearInterval(j),H.forEach(I=>f.add(I)),v.style.display="none",w.innerHTML="",i=!1}}(E)}},3e3)}();
+
+(function () {
+    'use strict';
+
+    console.log("SLA MONITOR - VERSÃO 8.4 INICIADA (PRODUÇÃO VIA NUVEM)");
+
+    let monitorSlaAtivo = false;
+    let alertaNovasOsAtivo = false;
+    let mostrarAtendidas = false; 
+    let mostrarOcultas = false; 
+    let slasSilenciados = false;
+    let filtrarP1P2 = false; 
+    
+    let timerMuteGlobal = null; 
+    
+    let osConhecidas = new Set();
+    let osMutadas = new Set(); 
+    let osOcultadas = new Set(); 
+    
+    let modalAberto = false;
+    let loopAlarmeNovo = null;
+
+    let ultimoAlertaSla = 0;
+    let intervaloAtualAlertaSla = 60000;
+    let historicoAlertasOS = {};
+
+    function tornarArrastavel(elementoJanela, elementoPuxador) {
+        let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+        elementoPuxador.style.cursor = "grab";
+        elementoPuxador.style.userSelect = "none";
+        elementoPuxador.onmousedown = function(e) {
+            e = e || window.event;
+            if (e.target.closest('#btnMuteSla') || e.target.closest('#btnFiltroPrioridade')) return; 
+            e.preventDefault();
+            pos3 = e.clientX;
+            pos4 = e.clientY;
+            const rect = elementoJanela.getBoundingClientRect();
+            elementoJanela.style.bottom = "auto";
+            elementoJanela.style.right = "auto";
+            elementoJanela.style.top = rect.top + "px";
+            elementoJanela.style.left = rect.left + "px";
+            document.onmouseup = pararArrasto;
+            document.onmousemove = arrastarElemento;
+            elementoPuxador.style.cursor = "grabbing";
+        };
+        function arrastarElemento(e) {
+            e = e || window.event;
+            e.preventDefault();
+            pos1 = pos3 - e.clientX;
+            pos2 = pos4 - e.clientY;
+            pos3 = e.clientX;
+            pos4 = e.clientY;
+            elementoJanela.style.top = (elementoJanela.offsetTop - pos2) + "px";
+            elementoJanela.style.left = (elementoJanela.offsetLeft - pos1) + "px";
+        }
+        function pararArrasto() {
+            document.onmouseup = null;
+            document.onmousemove = null;
+            elementoPuxador.style.cursor = "grab";
+        }
+    }
+
+    const painelControle = document.createElement("div");
+    painelControle.style.position = "fixed";
+    painelControle.style.bottom = "20px"; 
+    painelControle.style.left = "20px";
+    painelControle.style.width = "220px";
+    painelControle.style.zIndex = "999999999";
+    painelControle.style.background = "#1e1e1e";
+    painelControle.style.color = "white";
+    painelControle.style.fontFamily = "Arial";
+    painelControle.style.border = "2px solid #555";
+    painelControle.style.borderRadius = "10px";
+    painelControle.style.boxShadow = "0 0 15px rgba(0,0,0,0.5)";
+    painelControle.style.overflow = "hidden";
+    
+    const cabecalhoControle = document.createElement("div");
+    cabecalhoControle.style.padding = "10px";
+    cabecalhoControle.style.background = "#333";
+    cabecalhoControle.style.textAlign = "center";
+    cabecalhoControle.style.fontWeight = "bold";
+    cabecalhoControle.style.borderBottom = "1px solid #555";
+    cabecalhoControle.innerText = "🎛️ Centro de Controle";
+    painelControle.appendChild(cabecalhoControle);
+
+    const corpoControle = document.createElement("div");
+    corpoControle.style.padding = "10px";
+    corpoControle.style.display = "grid";
+    corpoControle.style.gridTemplateColumns = "1fr 1fr";
+    corpoControle.style.gap = "8px";
+    corpoControle.innerHTML = `
+        <label style="font-size:12px; cursor:pointer; display:flex; align-items:center;"><input type="checkbox" id="chkMonitorSla" style="margin-right:5px; width:14px; height:14px; cursor:pointer;"> Monitorar</label>
+        <label style="font-size:12px; cursor:pointer; display:flex; align-items:center;"><input type="checkbox" id="chkMostrarAtendidas" style="margin-right:5px; width:14px; height:14px; cursor:pointer;"> Atendidas</label>
+        <label style="font-size:12px; cursor:pointer; display:flex; align-items:center;"><input type="checkbox" id="chkMostrarOcultas" style="margin-right:5px; width:14px; height:14px; cursor:pointer;"> Ocultas</label>
+        <label style="font-size:12px; cursor:pointer; display:flex; align-items:center;"><input type="checkbox" id="chkNovasOs" style="margin-right:5px; width:14px; height:14px; cursor:pointer;"> Alerta OS</label>
+    `;
+    painelControle.appendChild(corpoControle);
+    document.body.appendChild(painelControle);
+    tornarArrastavel(painelControle, cabecalhoControle);
+
+    document.getElementById("chkMonitorSla").checked = false;
+    document.getElementById("chkMostrarAtendidas").checked = false;
+    document.getElementById("chkMostrarOcultas").checked = false;
+    document.getElementById("chkNovasOs").checked = false;
+
+    const painelSlaContainer = document.createElement("div");
+    painelSlaContainer.style.position = "fixed";
+    painelSlaContainer.style.top = "20px";
+    painelSlaContainer.style.right = "20px";
+    painelSlaContainer.style.width = "auto"; 
+    painelSlaContainer.style.minWidth = "290px"; 
+    painelSlaContainer.style.maxWidth = "450px"; 
+    painelSlaContainer.style.zIndex = "999999998";
+    painelSlaContainer.style.background = "#111";
+    painelSlaContainer.style.color = "white";
+    painelSlaContainer.style.fontFamily = "Arial";
+    painelSlaContainer.style.border = "2px solid #555";
+    painelSlaContainer.style.borderRadius = "10px";
+    painelSlaContainer.style.boxShadow = "0 0 15px rgba(0,0,0,0.5)";
+    painelSlaContainer.style.overflow = "hidden";
+    painelSlaContainer.style.display = "none"; 
+
+    const cabecalhoSla = document.createElement("div");
+    cabecalhoSla.style.padding = "12px";
+    cabecalhoSla.style.background = "#333";
+    cabecalhoSla.style.borderBottom = "1px solid #555";
+    cabecalhoSla.style.display = "flex";
+    cabecalhoSla.style.justifyContent = "space-between";
+    cabecalhoSla.style.alignItems = "center";
+    cabecalhoSla.innerHTML = `
+        <div style="display:flex; align-items:center;">
+            <span style="font-size:16px; font-weight:bold; margin-right:10px;">🚨 Monitor SLA</span>
+            <span id="btnMuteSla" style="cursor:pointer; font-size:18px;" title="Silenciar Alertas de SLA">🔊</span>
+        </div>
+        <span id="btnFiltroPrioridade" style="cursor:pointer; font-size:11px; background:rgba(255,255,255,0.15); padding:4px 8px; border-radius:4px; font-weight:bold; transition: background 0.2s;" title="Alternar Prioridades">⚡ Todos</span>
+    `;
+    painelSlaContainer.appendChild(cabecalhoSla);
+
+    const corpoSla = document.createElement("div");
+    corpoSla.style.padding = "12px";
+    corpoSla.style.maxHeight = "80vh";
+    corpoSla.style.overflowY = "auto";
+    painelSlaContainer.appendChild(corpoSla);
+    document.body.appendChild(painelSlaContainer);
+    tornarArrastavel(painelSlaContainer, cabecalhoSla);
+
+    const btnMuteSla = cabecalhoSla.querySelector("#btnMuteSla");
+    btnMuteSla.onmousedown = function(e) { e.stopPropagation(); };
+    btnMuteSla.onclick = function() {
+        slasSilenciados = !slasSilenciados;
+        btnMuteSla.innerText = slasSilenciados ? "🔇" : "🔊";
+        
+        if (slasSilenciados) {
+            if (timerMuteGlobal) clearTimeout(timerMuteGlobal);
+            timerMuteGlobal = setTimeout(() => {
+                slasSilenciados = false;
+                btnMuteSla.innerText = "🔊";
+                if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+            }, 120000); 
+        } else {
+            if (timerMuteGlobal) clearTimeout(timerMuteGlobal);
+            if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+        }
+    };
+
+    const btnFiltroPrioridade = cabecalhoSla.querySelector("#btnFiltroPrioridade");
+    btnFiltroPrioridade.onmousedown = function(e) { e.stopPropagation(); };
+    btnFiltroPrioridade.onclick = function() {
+        filtrarP1P2 = !filtrarP1P2;
+        btnFiltroPrioridade.innerText = filtrarP1P2 ? "⚡ P1 / P2" : "⚡ Todos";
+        btnFiltroPrioridade.style.background = filtrarP1P2 ? "#b45309" : "rgba(255,255,255,0.15)";
+    };
+
+    corpoSla.addEventListener('click', (e) => {
+        const btnMute = e.target.closest('.btn-mute-os');
+        if (btnMute) {
+            const os = btnMute.getAttribute('data-os');
+            if (osMutadas.has(os)) {
+                osMutadas.delete(os);
+                btnMute.innerText = '🔊';
+                btnMute.title = 'Mutar OS';
+            } else {
+                osMutadas.add(os);
+                btnMute.innerText = '🔇';
+                btnMute.title = 'Desmutar OS';
+            }
+        }
+
+        const btnOcultar = e.target.closest('.btn-ocultar-os');
+        if (btnOcultar) {
+            const os = btnOcultar.getAttribute('data-os');
+            if (osOcultadas.has(os)) {
+                osOcultadas.delete(os);
+                btnOcultar.innerText = '➖';
+                btnOcultar.title = 'Ocultar OS';
+            } else {
+                osOcultadas.add(os);
+                btnOcultar.innerText = '👁️';
+                btnOcultar.title = 'Remover Ocultação';
+            }
+        }
+    });
+
+    document.getElementById("chkMonitorSla").addEventListener("change", (e) => {
+        monitorSlaAtivo = e.target.checked;
+        painelSlaContainer.style.display = monitorSlaAtivo ? "block" : "none";
+        if (!monitorSlaAtivo) corpoSla.innerHTML = ""; 
+    });
+
+    document.getElementById("chkMostrarAtendidas").addEventListener("change", (e) => {mostrarAtendidas = e.target.checked;});
+    document.getElementById("chkMostrarOcultas").addEventListener("change", (e) => {mostrarOcultas = e.target.checked;});
+    document.getElementById("chkNovasOs").addEventListener("change", (e) => {
+        alertaNovasOsAtivo = e.target.checked;
+        if (alertaNovasOsAtivo) {
+            const ocorrenciasVisiveis = extrairOcorrenciasDaTela();
+            osConhecidas.clear();
+            ocorrenciasVisiveis.forEach(o => osConhecidas.add(o.os));
+        } else osConhecidas.clear();
+    });
+
+    const modalNovaOs = document.createElement("div");
+    modalNovaOs.style.position = "fixed";
+    modalNovaOs.style.inset = "0";
+    modalNovaOs.style.background = "rgba(0, 0, 0, 0.85)";
+    modalNovaOs.style.zIndex = "9999999999";
+    modalNovaOs.style.display = "none";
+    modalNovaOs.style.alignItems = "center";
+    modalNovaOs.style.justifyContent = "center";
+    
+    const modalContent = document.createElement("div");
+    modalContent.style.background = "#0f172a";
+    modalContent.style.border = "3px solid #3b82f6";
+    modalContent.style.borderRadius = "15px";
+    modalContent.style.padding = "30px";
+    modalContent.style.textAlign = "center";
+    modalContent.style.color = "white";
+    modalContent.style.fontFamily = "Arial";
+    modalContent.style.minWidth = "350px";
+    modalContent.style.maxWidth = "500px";
+    modalContent.style.boxShadow = "0 0 30px rgba(59, 130, 246, 0.5)";
+    modalNovaOs.appendChild(modalContent);
+    document.body.appendChild(modalNovaOs);
+
+    function tocarCampainhaSuave() {
+        try {
+            const ctx = new (window.AudioContext || window.webkitAudioContext)();
+            const t = ctx.currentTime;
+            function criarNota(freq, inicio) {
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.type = "sine";
+                osc.frequency.value = freq;
+                osc.start(inicio);
+                gain.gain.setValueAtTime(0, inicio);
+                gain.gain.linearRampToValueAtTime(0.1, inicio + 0.05);
+                gain.gain.exponentialRampToValueAtTime(0.0001, inicio + 0.8);
+                osc.stop(inicio + 0.8);
+            }
+            criarNota(880, t);         
+            criarNota(1108.53, t + 0.25); 
+        } catch(e) {}
+    }
+
+    function emitirBipe(audioCtx, tempoInicio) {
+        const oscillator = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+        oscillator.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+        oscillator.type = "sine";
+        oscillator.frequency.value = 880;
+        oscillator.start(tempoInicio);
+        gainNode.gain.setValueAtTime(1, tempoInicio);
+        gainNode.gain.exponentialRampToValueAtTime(0.0001, tempoInicio + 0.15);
+        oscillator.stop(tempoInicio + 0.15);
+    }
+
+    function dispararVoz(texto) {
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.cancel(); 
+            const msg = new SpeechSynthesisUtterance(texto);
+            msg.lang = 'pt-BR'; 
+            msg.rate = 1.25; 
+            window.speechSynthesis.speak(msg);
+        }
+    }
+
+    function executarAlarmeHibridoSLA(modo, fraseVoz) {
+        const agora = Date.now();
+        const tempoEspera = modo === "critico" ? 60000 : 120000;
+
+        if (tempoEspera !== intervaloAtualAlertaSla || (agora - ultimoAlertaSla >= tempoEspera)) {
+            ultimoAlertaSla = agora;
+            intervaloAtualAlertaSla = tempoEspera;
+
+            if (modo === "critico") {
+                try {
+                    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                    const tempoAtual = audioCtx.currentTime;
+                    for (let i = 0; i < 5; i++) {
+                        emitirBipe(audioCtx, tempoAtual + (i * 0.3));
+                    }
+                    setTimeout(() => { dispararVoz(fraseVoz); }, 1500);
+                } catch (e) { dispararVoz(fraseVoz); }
+            } else dispararVoz(fraseVoz);
+        }
+    }
+
+    function minutosRestantes(dataTexto) {
+        const partes = dataTexto.match(/(\d{2})\/(\d{2})\/(\d{4}) (\d{2}):(\d{2})/);
+        if (!partes) return null;
+        const data = new Date(Number(partes[3]), Number(partes[2]) - 1, Number(partes[1]), Number(partes[4]), Number(partes[5]));
+        return Math.round((data - new Date()) / 1000 / 60);
+    }
+
+    function extrairTimestamp(dataTexto) {
+        if (!dataTexto || dataTexto.toUpperCase().includes("NENHUM")) return 0;
+        const partes = dataTexto.match(/(\d{2})\/(\d{2})\/(\d{4} \d{2}:\d{2})/);
+        if (!partes) return 0;
+        return new Date(Number(partes[3]), Number(partes[2]) - 1, Number(partes[1]), Number(partes[4]), Number(partes[5])).getTime();
+    }
+
+    function extrairOcorrenciasDaTela() {
+        const spans = document.querySelectorAll("span");
+        let blocos = [];
+        spans.forEach(span => {
+            const title = span.getAttribute("title");
+            if (!title || !title.includes("Previsão de Vencimento da SLA")) return;
+            const container = span.parentElement?.parentElement;
+            if (!container) return;
+            const texto = container.innerText;
+            if (texto && !blocos.includes(texto)) blocos.push(texto);
+        });
+
+        let ocorrenciasBrutas = [];
+        blocos.forEach(texto => {
+            const lines = texto.split("\n").map(x => x.trim()).filter(Boolean);
+            let indicesOs = [];
+            lines.forEach((linha, i) => { if (/^\d{6}-\d+$/.test(linha)) indicesOs.push(i); });
+
+            indicesOs.forEach((indiceAtual, idx) => {
+                const os = lines[indiceAtual];
+                const indiceProximo = indicesOs[idx + 1] || lines.length;
+                
+                const trechoBruto = lines.slice(indiceAtual, indiceProximo);
+                let tokens = [];
+                trechoBruto.forEach(l => {
+                    const partes = l.split(/\t/).map(x => x.trim()).filter(Boolean);
+                    tokens.push(...partes);
+                });
+
+                const inicioTrechoAnterior = idx === 0 ? 0 : indicesOs[idx - 1] + 1;
+                const trechoAnterior = lines.slice(inicioTrechoAnterior, indiceAtual);
+                let tokensAnteriores = [];
+                trechoAnterior.forEach(l => {
+                    const partes = l.split(/\t/).map(x => x.trim()).filter(Boolean);
+                    tokensAnteriores.push(...partes);
+                });
+
+                const cronologia = [];
+                let atrasado = "Não";
+                let cancelada = false; 
+                let atrasadoEncontrado = false;
+                let prioridade = "P3"; 
+
+                for (let j = tokensAnteriores.length - 1; j >= 0; j--) {
+                    const t = tokensAnteriores[j].toUpperCase().trim();
+                    if (/^P[1-5]$/.test(t)) {
+                        prioridade = t;
+                        break;
+                    }
+                }
+
+                tokens.forEach(token => {
+                    const textoLimpo = token.toUpperCase().trim();
+                    if (textoLimpo.includes("CANCELAD")) cancelada = true;
+                    
+                    const regexData = /\d{2}\/\d{2}\/\d{4} \d{2}:\d{2}/g;
+                    let match;
+                    let achouData = false;
+                    while ((match = regexData.exec(token)) !== null) {
+                        cronologia.push(match[0]);
+                        achouData = true;
+                    }
+                    if (!achouData) {
+                        if (textoLimpo.includes("NENHUM VALOR")) {
+                            cronologia.push("Nenhum Valor");
+                        } else if (!atrasadoEncontrado && (textoLimpo === "SIM" || textoLimpo === "NÃO")) {
+                            atrasado = textoLimpo === "SIM" ? "Sim" : "Não";
+                            atrasadoEncontrado = true;
+                        }
+                    }
+                });
+
+                if (cronologia.length < 2) return;
+                const sla = cronologia[1];
+                const horaChegada = cronologia[3] || "Nenhum Valor";
+                const minutos = minutosRestantes(sla);
+                ocorrenciasBrutas.push({ os, sla, minutos, horaChegada, atrasado, cancelada, prioridade });
+            });
+        });
+        return ocorrenciasBrutas;
+    }
+
+    function processarPainelSLA(ocorrenciasBrutas) {
+        let ocorrenciasMap = {};
+
+        ocorrenciasBrutas.forEach(o => {
+            const os = o.os;
+            const semChegada = o.horaChegada.toUpperCase().includes("NENHUM");
+            const atrasado = o.atrasado === "Sim";
+
+            let score = 1; 
+            if (!o.cancelada) {
+                if (!semChegada) score = atrasado ? 4 : 3; 
+                else score = 2; 
+            }
+
+            const atual = ocorrenciasMap[os];
+            if (!atual) {
+                ocorrenciasMap[os] = { ...o, score };
+            } else if (score > atual.score) {
+                ocorrenciasMap[os] = { ...o, score };
+            } else if (score === atual.score && !o.cancelada && !semChegada) {
+                const tempoNovo = extrairTimestamp(o.horaChegada);
+                const tempoAtual = extrairTimestamp(atual.horaChegada);
+                if (tempoNovo < tempoAtual) ocorrenciasMap[os] = { ...o, score };
+            }
+        });
+
+        let ocorrencias = Object.values(ocorrenciasMap);
+
+        if (!mostrarAtendidas) {
+            ocorrencias = ocorrencias.filter(o => o.horaChegada.toUpperCase().includes("NENHUM") && !o.cancelada);
+        }
+
+        if (!mostrarOcultas) {
+            ocorrencias = ocorrencias.filter(o => !osOcultadas.has(o.os));
+        }
+
+        if (filtrarP1P2) {
+            ocorrencias = ocorrencias.filter(o => o.prioridade === "P1" || o.prioridade === "P2");
+        }
+
+        ocorrencias.sort((a, b) => {
+            const aPendente = a.horaChegada.toUpperCase().includes("NENHUM") && !a.cancelada;
+            const bPendente = b.horaChegada.toUpperCase().includes("NENHUM") && !b.cancelada;
+            if (aPendente && !bPendente) return -1;
+            if (!aPendente && bPendente) return 1;
+            if (aPendente && bPendente) {
+                const ma = a.minutos == null ? 9999 : a.minutos;
+                const mb = b.minutos == null ? 9999 : b.minutos;
+                return ma - mb;
+            }
+            if (a.cancelada && !b.cancelada) return 1;
+            if (!a.cancelada && b.cancelada) return -1;
+            if (!aPendente && !bPendente) {
+                const tA = extrairTimestamp(a.horaChegada);
+                const tB = extrairTimestamp(b.horaChegada);
+                return tB - tA;
+            }
+            return 0;
+        });
+
+        const pendentesCriticas = ocorrencias.filter(o => o.horaChegada.toUpperCase().includes("NENHUM") && o.minutos !== null && !o.cancelada && !osMutadas.has(o.os) && !osOcultadas.has(o.os));
+        
+        if (pendentesCriticas.length > 0 && !slasSilenciados) {
+            const maisCritica = pendentesCriticas[0];
+            const tempo = maisCritica.minutos;
+            const finalOs = parseInt(maisCritica.os.split('-')[1], 10);
+            const osKey = maisCritica.os;
+
+            if (tempo > 0) { 
+                if (!historicoAlertasOS[osKey]) {
+                    historicoAlertasOS[osKey] = { alertado15: false, alertado10: false };
+                }
+
+                if (tempo === 15) {
+                    if (!historicoAlertasOS[osKey].alertado15) {
+                        historicoAlertasOS[osKey].alertado15 = true;
+                        dispararVoz(`Aviso! Faltam 15 minutos, para a ocorrência final ${finalOs}.`);
+                    }
+                } else if (tempo === 10) {
+                    if (!historicoAlertasOS[osKey].alertado10) {
+                        historicoAlertasOS[osKey].alertado10 = true;
+                        dispararVoz(`Aviso! Faltam 10 minutos, para a ocorrência final ${finalOs}.`);
+                    }
+                } else if (tempo <= 5) {
+                    const tempoAbs = Math.abs(tempo);
+                    const palavraMinuto = tempoAbs === 1 ? "minuto" : "minutos";
+                    let textoCritico = `Urgente! Faltam ${tempoAbs} ${palavraMinuto}, para o tempo limite da ocorrência final ${finalOs}.`;
+                    executarAlarmeHibridoSLA("critico", textoCritico);
+                }
+            }
+        }
+
+        corpoSla.innerHTML = ocorrencias.length === 0 ? `<div style="text-align:center;">Nenhuma ocorrência na tela.</div>` : ocorrencias.map(o => {
+            const semChegada = o.horaChegada.toUpperCase().includes("NENHUM");
+            let cor = "#1e1e1e"; 
+
+            if (o.cancelada) {
+                cor = "#333333"; 
+            } else if (semChegada) {
+                if (o.minutos !== null && o.minutos <= 10) cor = "#8b0000";    
+                else if (o.minutos !== null && o.minutos <= 15) cor = "#b45309"; 
+            } else {
+                cor = o.atrasado === "Sim" ? "#7f1d1d" : "#14532d"; 
+            }
+
+            return `
+                <div style="background:${cor}; padding:10px; margin-bottom:10px; border-radius:8px;">
+                    <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                        <div style="font-weight:bold; font-size:14px; white-space:nowrap;">📌 ${o.os} (${o.prioridade})</div>
+                        <div style="display:flex; gap:5px;">
+                            <span class="btn-ocultar-os" data-os="${o.os}" style="cursor:pointer; font-size:14px; background:rgba(255,255,255,0.1); padding:2px 5px; border-radius:4px;" title="${osOcultadas.has(o.os) ? 'Remover Ocultação' : 'Ocultar OS'}">
+                                ${osOcultadas.has(o.os) ? '👁️' : '➖'}
+                            </span>
+                            <span class="btn-mute-os" data-os="${o.os}" style="cursor:pointer; font-size:14px; background:rgba(255,255,255,0.1); padding:2px 5px; border-radius:4px;" title="${osMutadas.has(o.os) ? 'Desmutar OS' : 'Mutar OS'}">
+                                ${osMutadas.has(o.os) ? '🔇' : '🔊'}
+                            </span>
+                        </div>
+                    </div>
+                    <div style="margin-top:4px; font-size:12px;">⏰ SLA: ${o.sla}</div>
+                    ${o.cancelada ? `
+                        <div style="margin-top:10px; font-size:18px; font-weight:bold; color:#888;">🚫 CANCELADA</div>
+                    ` : (semChegada ? `
+                        <div style="margin-top:10px; font-size:28px; font-weight:bold;">⏳ ${o.minutos === null ? 'N/A' : o.minutos + ' min'}</div>
+                    ` : `
+                        <div style="margin-top:10px; font-size:14px; font-weight:bold;">${o.atrasado === "Sim" ? "🚨 ATENDIDA COM ATRASO" : "✅ ATENDIDA NO PRAZO"}</div>
+                        <div style="margin-top:6px; opacity:0.9; font-size:12px;">🚗 Chegada: ${o.horaChegada}</div>
+                    `)}
+                </div>
+            `;
+        }).join("");
+    }
+
+    function processarNovasOs(ocorrenciasBrutas) {
+        if (modalAberto) return; 
+        const osVisiveis = [...new Set(ocorrenciasBrutas.filter(o => !o.cancelada).map(o => o.os))];
+        let novasEncontradas = [];
+        osVisiveis.forEach(os => {
+            if (!osConhecidas.has(os)) novasEncontradas.push(os);
+        });
+        if (novasEncontradas.length > 0) {
+            modalAberto = true;
+            modalContent.innerHTML = `
+                <div style="font-size:35px; margin-bottom:10px;">🚨</div>
+                <div style="font-size:24px; font-weight:bold; color:#3b82f6; margin-bottom:20px;">NOVA OCORRÊNCIA DETECTADA!</div>
+                <div style="font-size:18px; max-height: 400px; overflow-y: auto; margin-bottom:25px; color:#cbd5e1; padding-right: 10px;">
+                    ${novasEncontradas.map(os => `<div style="margin-bottom:8px; background:#1e293b; padding:10px; border-radius:8px; text-align: left;">📌 ${os}</div>`).join('')}
+                </div>
+                <button id="btnConfirmaNovaOs" style="background: #3b82f6; color: white; border: none; padding: 15px 30px; font-size: 18px; font-weight: bold; border-radius: 8px; cursor: pointer; width: 100%; box-shadow: 0 5px 15px rgba(59, 130, 246, 0.3);">OK, Ciente</button>
+            `;
+            modalNovaOs.style.display = "flex";
+            tocarCampainhaSuave(); 
+            loopAlarmeNovo = setInterval(tocarCampainhaSuave, 2500);
+            document.getElementById("btnConfirmaNovaOs").onclick = () => {
+                clearInterval(loopAlarmeNovo); 
+                novasEncontradas.forEach(os => osConhecidas.add(os));
+                modalNovaOs.style.display = "none";
+                modalContent.innerHTML = "";
+                modalAberto = false; 
+            };
+        }
+    }
+
+    setInterval(() => {
+        if (monitorSlaAtivo || alertaNovasOsAtivo) {
+            const dadosTela = extrairOcorrenciasDaTela();
+            if (monitorSlaAtivo) processarPainelSLA(dadosTela);
+            if (alertaNovasOsAtivo) processarNovasOs(dadosTela);
+        }
+    }, 3000);
+})();

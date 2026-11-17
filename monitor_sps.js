@@ -185,7 +185,7 @@
         <label style="font-size:12px; cursor:pointer; display:flex; align-items:center;"><input type="checkbox" id="chkMostrarAtendidas" style="margin-right:5px; width:14px; height:14px; cursor:pointer;"> Atendidas</label>
         <label style="font-size:12px; cursor:pointer; display:flex; align-items:center;"><input type="checkbox" id="chkMostrarOcultas" style="margin-right:5px; width:14px; height:14px; cursor:pointer;"> Ocultas</label>
         <label style="font-size:12px; cursor:pointer; display:flex; align-items:center;"><input type="checkbox" id="chkNovasOs" style="margin-right:5px; width:14px; height:14px; cursor:pointer;"> Alerta OS</label>
-        <label style="font-size:12px; cursor:pointer; display:flex; align-items:center; color:#fca5a5; font-weight:bold; grid-column: 1 / -1;"><input type="checkbox" id="chkAlertaTransmissao" style="margin-right:5px; width:14px; height:14px; cursor:pointer;"> Aceite OS</label>
+        <label style="font-size:12px; cursor:pointer; display:flex; align-items:center;"><input type="checkbox" id="chkAlertaTransmissao" style="margin-right:5px; width:14px; height:14px; cursor:pointer;"> Aceite OS</label>
     `;
     painelControle.appendChild(corpoControle);
     document.body.appendChild(painelControle);

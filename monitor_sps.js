@@ -651,11 +651,11 @@
                     if (tsAbertura > 0) {
                         const minutosPassados = (agora - tsAbertura) / 60000;
                         
-                        if (minutosPassados >= 7) { 
+                        if (minutosPassados >= 8) { 
                             if (!historicoAlertasTransmissao[o.os]) {
                                 historicoAlertasTransmissao[o.os] = true;
                                 const finalOs = parseInt(o.os.split('-')[1], 10);
-                                dispararVoz(`Atenção. A ocorrência ${finalOs} está há mais de sete minutos sem transmissão.`);
+                                dispararVoz(`Atenção. A ocorrência ${finalOs} está há mais de oito minutos sem transmissão.`);
                             }
                         }
                     }
